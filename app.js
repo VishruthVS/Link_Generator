@@ -29,7 +29,7 @@ async function uploadFile() {
   try {
     const response = await drive.files.create({
       requestBody: {
-        name: "hackerpic.jpg",
+        name: "hackerpic1.jpg",
         mimeType: "image/jpg",
       },
       media: {
@@ -43,4 +43,15 @@ async function uploadFile() {
   }
 }
 //for uploading files
-uploadFile();
+// uploadFile();
+async function deleteFile() {
+  try {
+    const response = await drive.files.delete({
+      fileId: "1SHzMbvWcVaeBGNidDFjB5A9ruZeDIumB",
+    });
+    console.log(response.data, response.status);
+  } catch (e) {
+    console.log(e.message);
+  }
+}
+deleteFile();
