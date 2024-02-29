@@ -20,7 +20,7 @@ const drive = google.drive({
   auth: oauth2Client,
 });
 
-const filePath = path.join(__dirname, "CANSAT.pdf");
+const filePath = path.join(__dirname, "medCert.pdf");
 
 async function uploadFile() {
   try {
@@ -54,7 +54,7 @@ async function deleteFile() {
 // deleteFile();
 async function generatePublicUrl() {
   try {
-    const fileId = "1ypyQDXs0Qp9KOfpxsGLidBbW19uyH6sj";
+    const fileId = "1FEFWKlwPiaFEbsfyh-0In6CcLwU8wghL";
     await drive.permissions.create({
       fileId: fileId,
       requestBody: {
