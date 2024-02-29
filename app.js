@@ -2,13 +2,7 @@ const { google } = require("googleapis");
 const path = require("path");
 const fs = require("fs");
 require("dotenv").config();
-// const CLIENT_ID =
-//   "241763807689-5v8mum3rdnsprh6d40hied5cihinnugu.apps.googleusercontent.com";
-// const CLIENT_SECRET = "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";
-// const REDIRECT_URI = "https://developers.google.com/oauthplayground";
 
-// const REFRESH_TOKEN =
-//   "1//04NKAcKENeB5pCgYIARAAGAQSNwF-L9IrCf-QPF8VGPrU5zVCXW9OgtR0urRzD8stVGdok-vkrSjvSqhL6QJsFZDaLdLzLkHLgFA";
 const CLIENT_ID = process.env.CLIENT_ID;
 const CLIENT_SECRET = process.env.CLIENT_SECRET;
 const REDIRECT_URI = process.env.REDIRECT_URI;
