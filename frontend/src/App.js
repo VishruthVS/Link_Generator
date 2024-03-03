@@ -1,12 +1,17 @@
 import React, { useState } from "react";
 import "./App.css";
+import Loader from "./components/loader";
 
 function App() {
   const [selectedFileType, setSelectedFileType] = useState("");
-
+  const [isLoading, setIsLoading] = useState(false);
   // Event handler for when the user selects an option
   const handleFileTypeChange = (event) => {
     setSelectedFileType(event.target.value);
+    setIsLoading(true);
+    setTimeout(() => {
+      setIsLoading(false); // Stop loading after data is fetched
+    }, 2000);
   };
 
   return (
@@ -29,6 +34,7 @@ function App() {
         <option value="archives">Archives</option>
         <option value="others">Others</option>
       </select>
+      <Loader isLoading={isLoading} />
       <div className="text-cyan-500">
         Hi, this is Vishruth. You selected: {selectedFileType}
       </div>
