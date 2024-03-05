@@ -1,10 +1,12 @@
 const express = require("express");
+const cors = require("cors");
 const { google } = require("googleapis");
 const path = require("path");
 const fs = require("fs");
 require("dotenv").config();
 const app = express();
 const router = express.Router();
+app.use(cors({ origin: "http://localhost:3000" }));
 const CLIENT_ID = process.env.CLIENT_ID;
 const CLIENT_SECRET = process.env.CLIENT_SECRET;
 const REDIRECT_URI = process.env.REDIRECT_URI;

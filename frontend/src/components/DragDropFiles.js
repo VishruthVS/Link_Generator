@@ -1,7 +1,9 @@
+import axios from "axios";
 import { useRef, useState } from "react";
 
 const DragDropFiles = () => {
   const [files, setFiles] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
   const inputRef = useRef();
 
   const handleDragOver = (event) => {
@@ -13,51 +15,34 @@ const DragDropFiles = () => {
     setFiles(event.dataTransfer.files);
   };
 
-  // send files to the server // learn from my other video
-  const handleUpload = () => {
+  // Send files to the server
+  const handleUpload = async () => {
+    setIsLoading(true);
+    console.log(files);
+
     const formData = new FormData();
-    formData.append("Files", files);
-    console.log(formData.getAll());
-    // fetch(
-    //   "link", {
-    //     method: "POST",
-    //     body: formData
-    //   }
-    // )
+    formData.append("Files", files[0]); // Assuming you only want to upload the first file
+    console.log(formData);
+    try {
+      const response = await axios.post(
+        "http://localhost:5000/api/upload",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+      const fileId = response.data.id; // Retrieve the id from the response
+      console.log("Upload completed. File ID:", fileId);
+      console.log("Upload completed:", response.data);
+      setIsLoading(false);
+    } catch (error) {
+      console.error("Error uploading file:", error);
+      setIsLoading(false);
+    }
   };
 
-  //   if (files)
-  //     return (
-  //       <div className="uploads">
-  //         <ul>
-  //           {Array.from(files).map((file, idx) => (
-  //             <li key={idx}>{file.name}</li>
-  //           ))}
-  //         </ul>
-  //         <div className="actions">
-  //           <button onClick={() => setFiles(null)}>Cancel</button>
-  //           <button onClick={handleUpload}>Upload</button>
-  //         </div>
-  //       </div>
-  //     );
-
-  //   return (
-  //     <>
-  //       <div className="dropzone" onDragOver={handleDragOver} onDrop={handleDrop}>
-  //         <h1>Drag and Drop Files to Upload</h1>
-  //         <h1>Or</h1>
-  //         <input
-  //           type="file"
-  //           multiple
-  //           onChange={(event) => setFiles(event.target.files)}
-  //           hidden
-  //           accept="image/png, image/jpeg"
-  //           ref={inputRef}
-  //         />
-  //         <button onClick={() => inputRef.current.click()}>Select Files</button>
-  //       </div>
-  //     </>
-  //   );
   if (!files) {
     return (
       <div
@@ -92,7 +77,15 @@ const DragDropFiles = () => {
         <ul className="space-y-2">
           {Array.from(files).map((file, idx) => (
             <li key={idx} className="bg-gray-200 rounded-md p-2">
-              {file.name}
+              <div>
+                <strong>File Name:</strong> {file.name}
+              </div>
+              <div>
+                <strong>File Size:</strong> {file.size} bytes
+              </div>
+              <div>
+                <strong>File Type:</strong> {file.type}
+              </div>
             </li>
           ))}
         </ul>
@@ -106,8 +99,9 @@ const DragDropFiles = () => {
           <button
             onClick={handleUpload}
             className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+            disabled={isLoading}
           >
-            Upload
+            {isLoading ? "Uploading..." : "Upload"}
           </button>
         </div>
       </div>
