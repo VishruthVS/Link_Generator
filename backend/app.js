@@ -1,11 +1,14 @@
 const express = require("express");
 const cors = require("cors");
+const multer = require("multer");
 const { google } = require("googleapis");
 const path = require("path");
 const fs = require("fs");
 require("dotenv").config();
 const app = express();
 const router = express.Router();
+const storage = multer.memoryStorage(); // Use memory storage to handle files
+const upload = multer({ storage: storage });
 app.use(cors({ origin: "http://localhost:3000" }));
 const CLIENT_ID = process.env.CLIENT_ID;
 const CLIENT_SECRET = process.env.CLIENT_SECRET;
@@ -77,19 +80,42 @@ const drive = google.drive({
 // }
 // generatePublicUrl();
 
-router.post("/upload", async (req, res) => {
+// router.post("/upload", async (req, res) => {
+//   try {
+//     const filePath = path.join(__dirname, "CopyRight.pdf");
+//     const response = await drive.files.create({
+//       requestBody: {
+//         name: "nocCopyRight.pdf",
+//         mimeType: "application/pdf",
+//       },
+//       media: {
+//         mimeType: "application/pdf",
+//         body: fs.createReadStream(filePath),
+//       },
+//     });
+//     res.json(response.data);
+//   } catch (e) {
+//     res.status(500).json({ error: e.message });
+//   }
+// });
+router.post("/upload", upload.single("Files"), async (req, res) => {
   try {
-    const filePath = path.join(__dirname, "CopyRight.pdf");
+    console.log("backend");
+    console.log(req.files);
+    const uploadedFile = req.files.Files;
+    // Assuming your file input is named "Files"
+    console.log("backend1");
     const response = await drive.files.create({
       requestBody: {
-        name: "nocCopyRight.pdf",
-        mimeType: "application/pdf",
+        name: uploadedFile.name, // Use the name of the uploaded file
+        mimeType: uploadedFile.mimetype, // Use the mimetype of the uploaded file
       },
       media: {
-        mimeType: "application/pdf",
-        body: fs.createReadStream(filePath),
+        mimeType: uploadedFile.mimetype,
+        body: uploadedFile.data,
       },
     });
+
     res.json(response.data);
   } catch (e) {
     res.status(500).json({ error: e.message });

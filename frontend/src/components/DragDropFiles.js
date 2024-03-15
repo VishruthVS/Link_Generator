@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useRef, useState } from "react";
+const FormData = require("form-data");
 
 const DragDropFiles = () => {
   const [files, setFiles] = useState(null);
@@ -12,7 +13,8 @@ const DragDropFiles = () => {
 
   const handleDrop = (event) => {
     event.preventDefault();
-    setFiles(event.dataTransfer.files);
+    const droppedFiles = event.dataTransfer.files;
+    setFiles(droppedFiles);
   };
 
   // Send files to the server
@@ -22,17 +24,40 @@ const DragDropFiles = () => {
 
     const formData = new FormData();
     formData.append("Files", files[0]); // Assuming you only want to upload the first file
-    console.log(formData);
+    // console.log(formData);
+    console.log(formData.get("Files"));
+    // for (var x of formData) console.log(x);
+
+    // console.log(formData);
+    // for (const [key, value] of formData.entries()) {
+    //   console.log(key, value);
+    // }
+
     try {
-      const response = await axios.post(
-        "http://localhost:5000/api/upload",
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
+      console.log("Before Axios Post");
+      // const response = await axios.post(
+      //   "http://localhost:5000/api/upload",
+      //   { formData },
+      //   {
+      //     headers: {
+      //       "Content-Type": "multipart/form-data",
+      //     },
+      //     processData: false, // Prevent jQuery from automatically processing the data
+      //     contentType: false, // Prevent jQuery from automatically setting Content-Type
+      //   }
+      // );
+      const response = await axios({
+        method: "post",
+        url: "http://localhost:5000/api/upload",
+        data: formData,
+        headers: {
+          "Content-Type": "multipart/form-data",
+          //  boundary=${formData._boundary}`,
+        },
+      });
+      console.log("After Axios Post"); // Add this line
+      console.log("hi");
+
       const fileId = response.data.id; // Retrieve the id from the response
       console.log("Upload completed. File ID:", fileId);
       console.log("Upload completed:", response.data);
@@ -41,6 +66,12 @@ const DragDropFiles = () => {
       console.error("Error uploading file:", error);
       setIsLoading(false);
     }
+  };
+  const handleFileInputChange = (event) => {
+    const selectedFiles = event.target.files;
+    console.log("Selected files:", selectedFiles);
+    console.log("selectedFiles");
+    setFiles(selectedFiles);
   };
 
   if (!files) {
@@ -56,8 +87,10 @@ const DragDropFiles = () => {
         <h1>Or</h1>
         <input
           type="file"
+          name="Files"
           multiple
-          onChange={(event) => setFiles(event.target.files)}
+          // onChange={(event) => setFiles(event.target.files)}
+          onChange={handleFileInputChange}
           hidden
           accept="image/png, image/jpeg"
           ref={inputRef}
