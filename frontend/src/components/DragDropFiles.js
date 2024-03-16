@@ -56,7 +56,7 @@ const DragDropFiles = () => {
       //   },
       // });
       const response = await axios.post(
-        "http://localhost:5000/api/upload",
+        "https://cerise-piglet-sari.cyclic.app/api/upload",
         formData
         // {
         //   // headers: {
