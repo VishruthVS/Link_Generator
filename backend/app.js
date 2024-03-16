@@ -9,7 +9,9 @@ const app = express();
 const router = express.Router();
 const storage = multer.memoryStorage(); // Use memory storage to handle files
 const upload = multer({ storage: storage });
+
 app.use(cors({ origin: "http://localhost:3000" }));
+app.use("/api", router);
 const CLIENT_ID = process.env.CLIENT_ID;
 const CLIENT_SECRET = process.env.CLIENT_SECRET;
 const REDIRECT_URI = process.env.REDIRECT_URI;
@@ -153,7 +155,7 @@ router.get("/generate-url/:fileId", async (req, res) => {
     res.status(500).json({ error: e.message });
   }
 });
-app.use("/api", router);
+
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`Server is listening on port ${PORT}`);
