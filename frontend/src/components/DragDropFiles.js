@@ -62,9 +62,7 @@ const DragDropFiles = () => {
           // headers: {
           //   "Content-Type": "multipart/form-data",
           // },
-          headers: formData.getHeaders
-            ? formData.getHeaders()
-            : { "Content-Type": "multipart/form-data" },
+          headers: { "Content-Type": "multipart/form-data" },
           processData: false, // Prevent jQuery from automatically processing the data
           contentType: false, // Prevent jQuery from automatically setting Content-Type
         }

@@ -103,18 +103,20 @@ const drive = google.drive({
 router.post("/upload", upload.single("Files"), async (req, res) => {
   try {
     console.log("backend");
-    console.log(req.files);
-    const uploadedFile = req.files.Files;
+    // console.log(req);
+    console.log(req.file);
+    const uploadedFile = req.file.fieldname;
     // Assuming your file input is named "Files"
     console.log("backend1");
+    console.log(uploadedFile);
     const response = await drive.files.create({
       requestBody: {
-        name: uploadedFile.name, // Use the name of the uploaded file
+        name: uploadedFile.fieldname, // Use the name of the uploaded file
         mimeType: uploadedFile.mimetype, // Use the mimetype of the uploaded file
       },
       media: {
         mimeType: uploadedFile.mimetype,
-        body: uploadedFile.data,
+        body: uploadedFile.buffer,
       },
     });
 
