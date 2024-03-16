@@ -57,15 +57,15 @@ const DragDropFiles = () => {
       // });
       const response = await axios.post(
         "http://localhost:5000/api/upload",
-        formData,
-        {
-          // headers: {
-          //   "Content-Type": "multipart/form-data",
-          // },
-          headers: { "Content-Type": "multipart/form-data" },
-          processData: false, // Prevent jQuery from automatically processing the data
-          contentType: false, // Prevent jQuery from automatically setting Content-Type
-        }
+        formData
+        // {
+        //   // headers: {
+        //   //   "Content-Type": "multipart/form-data",
+        //   // },
+        //   // headers: { "Content-Type": "multipart/form-data" },
+        //   // processData: false, // Prevent jQuery from automatically processing the data
+        //   // contentType: false, // Prevent jQuery from automatically setting Content-Type
+        // }
       );
       console.log("After Axios Post"); // Add this line
       console.log("hi");

@@ -9,7 +9,7 @@ const app = express();
 const router = express.Router();
 const storage = multer.memoryStorage(); // Use memory storage to handle files
 const upload = multer({ storage: storage });
-
+const { Readable } = require("stream");
 app.use(cors({ origin: "http://localhost:3000" }));
 app.use("/api", router);
 const CLIENT_ID = process.env.CLIENT_ID;
@@ -104,19 +104,20 @@ router.post("/upload", upload.single("Files"), async (req, res) => {
   try {
     console.log("backend");
     // console.log(req);
-    console.log(req.file);
-    const uploadedFile = req.file.fieldname;
+    // console.log(req.file);
+    const uploadedFile = req.file;
+
     // Assuming your file input is named "Files"
     console.log("backend1");
     console.log(uploadedFile);
     const response = await drive.files.create({
       requestBody: {
-        name: uploadedFile.fieldname, // Use the name of the uploaded file
+        name: uploadedFile.originalname, // Use the name of the uploaded file
         mimeType: uploadedFile.mimetype, // Use the mimetype of the uploaded file
       },
       media: {
         mimeType: uploadedFile.mimetype,
-        body: uploadedFile.buffer,
+        body: Readable.from([uploadedFile.buffer]),
       },
     });
 
