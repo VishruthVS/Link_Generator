@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import "./App.css";
 import DragDropFiles from "./components/DragDropFiles";
-import Loader from "./components/loader";
 function App() {
   const [selectedFileType, setSelectedFileType] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -40,7 +39,12 @@ function App() {
   };
 
   return (
+    <div>
+        <DragDropFiles />
+    </div>
+    /*
     <div className="p-4">
+      
       <label htmlFor="fileType" className="block mb-2 text-gray-700">
         Select File Type:
       </label>
@@ -84,6 +88,7 @@ function App() {
       </div>
       <DragDropFiles />
     </div>
+    */
   );
 }
 
