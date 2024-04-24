@@ -6,7 +6,8 @@ const DragDropFiles = () => {
   const [files, setFiles] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const inputRef = useRef();
-
+  const [webViewLink, setWebViewLink] = useState("");
+  const [webContentLink, setWebContentLink] = useState("");
   const handleDragOver = (event) => {
     event.preventDefault();
   };
@@ -71,12 +72,22 @@ const DragDropFiles = () => {
       console.log("hi");
 
       const fileId = response.data.id; // Retrieve the id from the response
+       const urlResponse = await axios.get(
+        `https://cerise-piglet-sari.cyclic.app/api/generate-url/${fileId}`
+      )
       console.log("Upload completed. File ID:", fileId);
       console.log("Upload completed:", response.data);
+        console.log("Response data:", response.data);
       setIsLoading(false);
+      setWebViewLink(urlResponse.data.webViewLink);
+      setWebContentLink(urlResponse.data.webContentLink);
+     console.log("webViewLink:", urlResponse.data.webViewLink);
+console.log("webContentLink:", urlResponse.data.webContentLink);
+
     } catch (error) {
       console.error("Error uploading file:", error);
       setIsLoading(false);
+     
     }
   };
   const handleFileInputChange = (event) => {
@@ -148,6 +159,23 @@ const DragDropFiles = () => {
           >
             {isLoading ? "Uploading..." : "Upload"}
           </button>
+          {/* Display links if available */}
+        {webViewLink && (
+          <div>
+            <strong>WebView Link:</strong>{" "}
+            <a href={webViewLink} target="_blank" rel="noopener noreferrer">
+              {webViewLink}
+            </a>
+          </div>
+        )}
+        {webContentLink && (
+          <div>
+            <strong>WebContent Link:</strong>{" "}
+            <a href={webContentLink} target="_blank" rel="noopener noreferrer">
+              {webContentLink}
+            </a>
+          </div>
+        )}
         </div>
       </div>
     );
