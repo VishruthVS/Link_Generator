@@ -1,4 +1,5 @@
 const express = require("express");
+const bodyParser = require('body-parser');
 const cors = require("cors");
 const multer = require("multer");
 const { google } = require("googleapis");
@@ -11,6 +12,8 @@ const storage = multer.memoryStorage(); // Use memory storage to handle files
 const upload = multer({ storage: storage });
 const { Readable } = require("stream");
 app.use(cors());
+app.use(bodyParser.json({ limit: '30mb' }));
+app.use(bodyParser.urlencoded({ extended: true, limit: '30mb' }))
 app.use("/api", router);
 const CLIENT_ID = process.env.CLIENT_ID;
 const CLIENT_SECRET = process.env.CLIENT_SECRET;
