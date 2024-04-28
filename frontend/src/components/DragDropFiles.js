@@ -35,7 +35,7 @@ const DragDropFiles = () => {
     // }
 
     try {
-      console.log("Before Axios Post");
+      console.log("Before Axios Post in dragdrop");
       // const response = await axios.post(
       //   "http://localhost:5000/api/upload",
       //   { formData },
