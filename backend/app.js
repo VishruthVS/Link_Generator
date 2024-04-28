@@ -103,7 +103,7 @@ const drive = google.drive({
 //     res.status(500).json({ error: e.message });
 //   }
 // });
-router.post("/upload", upload.single("Files"), async (req, res) => {
+router.post("/upload",express.json({limit: '50mb'}), upload.single("Files"), async (req, res) => {
   try {
     console.log("backend");
     // console.log(req);
