@@ -62,7 +62,7 @@ function App() {
   <div class="flex-1">
   <strong class="block font-medium text-gray-900"> </strong>
 
-  <p class="mt-1 text-sm font-semibold text-gray-700"> Note: Please avoid uploading images larger than 100KB.</p>
+  <p class="mt-1 text-sm font-semibold text-gray-700"> Note: Please avoid uploading images larger than 4000KB.</p>
 </div>
 
 
