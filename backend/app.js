@@ -12,7 +12,7 @@ const storage = multer.memoryStorage(); // Use memory storage to handle files
 const upload = multer({ storage: storage });
 const { Readable } = require("stream");
 app.use(cors());
-app.use(express.json({limit: '50mb'}));
+//app.use(express.json({limit: '50mb'}));
 app.use(express.urlencoded({limit: '50mb',extended: true, parameterLimit:50000}));
 app.use("/api", router);
 const CLIENT_ID = process.env.CLIENT_ID;
@@ -103,7 +103,7 @@ const drive = google.drive({
 //     res.status(500).json({ error: e.message });
 //   }
 // });
-router.post("/upload",express.json({limit: '50mb'}), upload.single("Files"), async (req, res) => {
+router.post("/upload", upload.single("Files"), async (req, res) => {
   try {
     console.log("backend");
     // console.log(req);
